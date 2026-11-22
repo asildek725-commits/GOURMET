@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#080808">
+<title>GOURMET</title>
+<style>
+:root{color-scheme:dark;--bg:#080808;--panel:rgba(12,12,12,.83);--line:rgba(255,255,255,.22);--muted:#aaa;--white:#f7f7f7}
+*{box-sizing:border-box}body{margin:0;background:#050505;color:var(--white);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
+.wall{position:fixed;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.94),rgba(0,0,0,.76)),url('assets/background.jpg') center/cover no-repeat;filter:grayscale(1);opacity:.68;z-index:-1}
+.app{max-width:1000px;margin:auto;padding:18px 14px 32px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 4px 18px;border-bottom:1px solid var(--line)}
+.brand{font-size:clamp(28px,7vw,42px);font-weight:900;letter-spacing:2px;font-style:italic}.sub{font-size:10px;letter-spacing:5px;color:#bbb;margin-top:2px}
+.ver{border:1px solid var(--line);border-radius:20px;padding:8px 12px;color:#ddd;font-size:12px}
+.layout{display:grid;grid-template-columns:150px 1fr;gap:14px;margin-top:16px}
+nav,.welcome,.panel{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 8px 32px #0008}
+nav{padding:9px;display:flex;flex-direction:column;gap:5px}
+nav button,.tabbtn{border:0;background:transparent;color:#ccc;text-align:left;padding:12px 11px;border-radius:12px;font-size:14px}
+nav button.active,nav button:active{background:linear-gradient(110deg,#fff,#aaa);color:#080808;font-weight:800}
+main{min-width:0}.welcome{padding:17px 18px;margin-bottom:14px}.welcome b{font-size:18px}.welcome p{margin:5px 0 0;color:#aaa;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.panel{padding:14px}.panel h3{margin:0 0 12px;font-size:16px}
+.action{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:#ffffff0d;border:1px solid #ffffff12;border-radius:11px;color:#eee;padding:11px;margin:6px 0;text-align:left}
+.small{color:#999;font-size:12px}.pill{border:1px solid #777;border-radius:20px;padding:3px 8px;font-size:10px}
+.view{display:none}.view.active{display:block}
+textarea{width:100%;min-height:220px;resize:vertical;background:#050505;border:1px solid #444;border-radius:12px;color:#eee;padding:12px;font:13px/1.5 ui-monospace,monospace;outline:none}
+input{width:100%;background:#080808;border:1px solid #444;border-radius:10px;color:white;padding:11px;margin:5px 0 10px}
+.primary{background:#eee;color:#090909;border:0;border-radius:10px;padding:11px 15px;font-weight:800;margin:6px 6px 6px 0}
+.secondary{background:#171717;color:#eee;border:1px solid #555;border-radius:10px;padding:10px 14px}
+.note{font-size:12px;line-height:1.5;color:#aaa}.foot{text-align:center;color:#777;font-size:11px;margin-top:18px}
+@media(max-width:650px){.layout{grid-template-columns:1fr}nav{display:grid;grid-template-columns:repeat(4,1fr)}nav button{text-align:center;padding:10px 4px;font-size:12px}.grid{grid-template-columns:1fr}.welcome{padding:14px}}
+</style>
+</head>
+<body><div class="wall"></div>
+<div class="app">
+<header class="top"><div><div class="brand">♛ GOURMET</div><div class="sub">ROBLOX SCRIPT HUB</div></div><div class="ver">v1.0.0</div></header>
+<div class="layout">
+<nav id="nav">
+<button class="active" data-view="home">⌂ Главная</button>
+<button data-view="scripts">▤ Скрипты</button>
+<button data-view="editor">⌘ Редактор</button>
+<button data-view="settings">⚙ Настройки</button>
+<button data-view="about">ⓘ О приложении</button>
+</nav>
+<main>
+<section class="view active" id="home">
+<div class="welcome"><b>Добро пожаловать в GOURMET</b><p>Твоя монохромная библиотека Lua-скриптов.</p></div>
+<div class="grid">
+<div class="panel"><h3>▤ Скрипты</h3><p class="note">Храни свои заметки и Lua-код в одном месте.</p><button class="action" data-go="scripts">Открыть библиотеку <span>›</span></button></div>
+<div class="panel"><h3>⌘ Редактор</h3><p class="note">Пиши и редактируй код с телефона.</p><button class="action" data-go="editor">Открыть редактор <span>›</span></button></div>
+<div class="panel"><h3>◐ Внешний вид</h3><p class="note">Тёмная тема, серебристые линии и фото на фоне.</p><span class="pill">BLACK / WHITE</span></div>
+<div class="panel"><h3>Безопасность</h3><p class="note">Это редактор и библиотека. Он не внедряется в Roblox и не запускает код в чужих играх.</p></div>
+</div></section>
+<section class="view" id="scripts"><div class="welcome"><b>Библиотека скриптов</b><p>Локальные заметки, которые сохраняются на этом устройстве.</p></div>
+<div class="panel"><label class="small" for="scriptName">Название</label><input id="scriptName" placeholder="Например, My Lua notes"><label class="small" for="scriptCode">Код или заметка</label><textarea id="scriptCode" placeholder="-- Вставь сюда свой Lua-код или заметку"></textarea><button class="primary" id="saveScript">Сохранить</button><div id="savedList" class="note"></div></div></section>
+<section class="view" id="editor"><div class="welcome"><b>Lua Editor</b><p>Простой редактор текста. Сохранение доступно в библиотеке.</p></div><div class="panel"><textarea id="editorCode" spellcheck="false" placeholder="-- Начни писать Lua здесь..."></textarea><button class="primary" id="copyCode">Копировать код</button><button class="secondary" id="toLibrary">В библиотеку</button><p class="note" id="editorStatus">Редактор не исполняет код.</p></div></section>
+<section class="view" id="settings"><div class="welcome"><b>Настройки</b><p>Параметры приложения.</p></div><div class="panel"><button class="action" id="bgToggle">Переключить фото на фоне <span>◐</span></button><button class="action" id="clearData">Очистить сохранённые заметки <span>×</span></button><p class="note">Заметки хранятся локально в браузере этого устройства.</p></div></section>
+<section class="view" id="about"><div class="welcome"><b>GOURMET v1.0.0</b><p>Минималистичная оболочка для хранения и редактирования Lua-текста.</p></div><div class="panel"><p class="note">Это стартовая версия интерфейса. Для публикации как APK понадобится упаковать проект в Android-приложение. Никакого инжектора или обхода защиты Roblox здесь нет.</p></div></section>
+</main></div><div class="foot">GOURMET • BLACK / WHITE • v1.0.0</div></div>
+<script>
+const nav=[...document.querySelectorAll('#nav button')];
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));nav.forEach(b=>b.classList.toggle('active',b.dataset.view===id))}
+nav.forEach(b=>b.onclick=()=>show(b.dataset.view));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+const key='gourmet_notes_v1';
+function getNotes(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
+function render(){const list=document.getElementById('savedList');const notes=getNotes();list.innerHTML=notes.length?'': 'Пока ничего не сохранено.';notes.forEach((n,i)=>{const d=document.createElement('div');d.className='action';const s=document.createElement('span');s.textContent=n.name;const del=document.createElement('button');del.className='secondary';del.textContent='Удалить';del.onclick=()=>{const a=getNotes();a.splice(i,1);localStorage.setItem(key,JSON.stringify(a));render()};d.append(s,del);list.append(d)})}
+document.getElementById('saveScript').onclick=()=>{const name=document.getElementById('scriptName').value.trim()||'Без названия';const code=document.getElementById('scriptCode').value;const a=getNotes();a.unshift({name,code});localStorage.setItem(key,JSON.stringify(a));document.getElementById('scriptName').value='';document.getElementById('scriptCode').value='';render()};
+document.getElementById('copyCode').onclick=async()=>{const t=document.getElementById('editorCode').value;try{await navigator.clipboard.writeText(t);document.getElementById('editorStatus').textContent='Скопировано.'}catch(e){document.getElementById('editorStatus').textContent='Не удалось скопировать. Выдели текст вручную.'}};
+document.getElementById('toLibrary').onclick=()=>{document.getElementById('scriptCode').value=document.getElementById('editorCode').value;show('scripts')};
+document.getElementById('clearData').onclick=()=>{if(confirm('Удалить все сохранённые заметки?')){localStorage.removeItem(key);render()}};
+document.getElementById('bgToggle').onclick=()=>{document.querySelector('.wall').style.opacity=document.querySelector('.wall').style.opacity==='0'?'0.68':'0'};
+render();
+</script></body></html>
