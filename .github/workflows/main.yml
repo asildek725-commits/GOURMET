@@ -10,13 +10,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 20
+        uses: actions/checkout@v5
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -28,10 +22,9 @@ jobs:
         run: |
           java -version
           javac -version
-          echo "JAVA_HOME=$JAVA_HOME"
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
@@ -39,16 +32,32 @@ jobs:
         run: |
           npm init -y
           npm install @capacitor/core @capacitor/android
-          npm install -D @capacitor/cli
+          npm install -g @capacitor/cli
           mkdir -p www
-          cp index.html www/
-          if [ -d assets ]; then cp -r assets www/; fi
+          cp index.html www/index.html
+          if [ -d assets ]; then cp -r assets www/assets; fi
 
-      - name: Configure Android
+      - name: Setup Capacitor
         run: |
           npx cap init GOURMET com.gourmet.app --web-dir www
           npx cap add android
           npx cap sync android
+
+      - name: Fix Kotlin dependencies
+        run: |
+          cat >> android/build.gradle <<'EOF'
+
+          allprojects {
+              configurations.configureEach {
+                  resolutionStrategy.eachDependency { details ->
+                      if (details.requested.group == "org.jetbrains.kotlin" &&
+                          details.requested.name.startsWith("kotlin-stdlib")) {
+                          details.useVersion("1.8.22")
+                      }
+                  }
+              }
+          }
+          EOF
 
       - name: Build APK
         run: |
