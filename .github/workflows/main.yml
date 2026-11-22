@@ -1,3 +1,4 @@
+
 name: Build GOURMET APK
 
 on:
@@ -22,12 +23,23 @@ jobs:
         with:
           node-version: 20
 
+      - name: Prepare project
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/android
+          npm install -D @capacitor/cli
+          mkdir -p www
+          cp index.html www/
+          if [ -d assets ]; then cp -r assets www/; fi
+
+      - name: Configure Android
+        run: |
+          npx cap init GOURMET com.gourmet.app --web-dir www
+          npx cap add android
+          npx cap sync android
+
       - name: Build APK
         run: |
-          npm install -g @capacitor/cli
-          npm install @capacitor/core @capacitor/android
-          npx cap init GOURMET com.gourmet.app --web-dir .
-          npx cap add android
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -37,3 +49,4 @@ jobs:
         with:
           name: GOURMET-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          
